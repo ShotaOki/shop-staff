@@ -44,6 +44,7 @@ export const Order = z.object({
             response: {
               yes: "ありがとうございます、お会計をいたします",
               no: "注文をどうぞ",
+              defaults: "どちらになさいますか？",
             },
           }),
         } as IssueRecord);
@@ -65,6 +66,7 @@ export const Order = z.object({
             response: {
               yes: "お持ち帰りですね",
               no: "店内をご利用ですね",
+              defaults: "どちらになさいますか？",
             },
           }),
         } as IssueRecord);

@@ -1,11 +1,11 @@
-あなたは質問をして、ユーザーから答えを受け取りました。
+あなたは「${ask}」と質問をして、ユーザーからその答えを受け取りました。
 答えをもとに、その内容をJSON形式にして返してください。
 プリアンブルは省略して、JSONだけを返してください。
 
 たとえば、次のようなYESの意味の答えを受け取ったとします。
-<order>
+<message>
 はい、よろしくお願いします。
-</order>
+</message>
 
 そのとき、次の<response>の中にあるJSONを返してください。
 
@@ -16,9 +16,9 @@
 </response>
 
 たとえば、次のようなNOの意味の答えを受け取ったとします。
-<order>
+<message>
 いいえ、違います。
-</order>
+</message>
 
 そのとき、次の<response>の中にあるJSONを返してください。
 
@@ -29,19 +29,17 @@
 </response>
 
 たとえば、次のようなYESでもNOでもない答えを受け取ったとします。
-<order>
+<message>
 どうしようかな
-</order>
+</message>
 
 そのとき、次の<response>の中にあるJSONを返してください。
 
 <response>
-{
-  "result": undefined
-}
+{}
 </response>
 
-では、以下の注文に対して、JSON形式で返してください。
-<order>
+では、「${ask}」に対して以下の答えを受け取った時、JSON形式で返してください。
+<message>
 ${message}
-</order>
+</message>

@@ -1,11 +1,10 @@
-import { ChooseOrderInput } from "../type/choose-order";
 import { PromptBase } from "./base";
 import { AsyncMessageContainer } from "../../logic/response-streamer";
 import YES_OR_NO from "../text/yes-or-no.txt?raw";
-import { YesOrNo } from "../type/yes-or-no";
+import { YesOrNo, YesOrNoInput } from "../type/yes-or-no";
 
 namespace WaitingKey {
-  export const FIRST_MESSAGE = "firstMessage";
+  export const FIRST_MESSAGE = "askMessage";
   export const RESPONSE = "response";
 }
 
@@ -16,14 +15,16 @@ interface Input {
   response: {
     yes: string;
     no: string;
+    defaults: string;
   };
 }
 
-export class YesOrNoMessagePrompt extends PromptBase<ChooseOrderInput> {
-  private firstMessage: string;
+export class YesOrNoMessagePrompt extends PromptBase<YesOrNoInput> {
+  private askMessage: string;
   private applyKey: string;
   private responseYes: string;
   private responseNo: string;
+  private responseDefaults: string;
 
   constructor(message: Input) {
     super(
@@ -36,10 +37,16 @@ export class YesOrNoMessagePrompt extends PromptBase<ChooseOrderInput> {
     // プロンプトを登録する
     this.promptBase = YES_OR_NO;
     this.isWaitForUserInput = true;
-    this.firstMessage = message.message;
+    this.askMessage = message.message;
     this.applyKey = message.applyKey;
     this.responseYes = message.response.yes;
     this.responseNo = message.response.no;
+    this.responseDefaults = message.response.defaults;
+  }
+
+  toPrompt(data: YesOrNoInput): string {
+    data.ask = this.askMessage;
+    return super.toPrompt(data);
   }
 
   begin(container: AsyncMessageContainer, shouldShowMessage: boolean) {
@@ -47,7 +54,7 @@ export class YesOrNoMessagePrompt extends PromptBase<ChooseOrderInput> {
       container.doNotShowPrefixMessage();
     }
     container.appendMessage({
-      message: shouldShowMessage ? this.firstMessage : "",
+      message: shouldShowMessage ? this.askMessage : "",
       key: WaitingKey.FIRST_MESSAGE,
     });
   }
@@ -68,7 +75,7 @@ export class YesOrNoMessagePrompt extends PromptBase<ChooseOrderInput> {
       });
     } else {
       container.appendMessage({
-        message: "どちらになさいますか？",
+        message: this.responseDefaults,
         key: WaitingKey.RESPONSE,
       });
     }

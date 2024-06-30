@@ -95,7 +95,9 @@ export default function Chat() {
             ))}
           </MessageList>
           <MessageInput
-            placeholder="Type message here"
+            placeholder="メッセージを入力します"
+            attachDisabled
+            attachButton={false}
             onSend={onSendMessage}
           />
         </ChatContainer>

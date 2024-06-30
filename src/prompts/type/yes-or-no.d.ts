@@ -4,4 +4,5 @@ export interface YesOrNo {
 
 export interface YesOrNoInput {
   message: string;
+  ask?: string;
 }

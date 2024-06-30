@@ -17,7 +17,7 @@ export class PromptBase<S> {
     const iterableData = data as { [key: string]: string };
     let result = this.promptBase;
     for (const key in data) {
-      result = result.replace("${" + key + "}", iterableData[key]);
+      result = result.replaceAll("${" + key + "}", iterableData[key]);
     }
     return result;
   }
