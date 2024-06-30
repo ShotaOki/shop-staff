@@ -3,16 +3,30 @@ import { PromptBase } from "../prompts/data/base";
 import { ChooseOrderPrompt } from "../prompts/data/choose-order";
 import { createCommonMessage } from "../prompts/data/common-message";
 import { createYesOrNoMessagePrompt } from "../prompts/data/yes-or-no";
+import Items from "./store-items.json";
 
 const OrderItem = z.object({
-  name: z.string(),
+  name: z.string().superRefine((val, ctx) => {
+    if (!Items.items.map((item) => item.name).includes(val)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        priority: 1,
+        agent: createCommonMessage(`恐れ入ります、${val}は扱っておりません`),
+        removeKey: "order",
+      } as IssueRecord);
+      return z.INVALID;
+    }
+  }),
   counts: z.number(),
+  required: z.array(z.string()).optional(),
+  options: z.array(z.string()).optional(),
 });
 
 export interface IssueRecord {
   code: "custom";
   priority: number;
   agent: () => PromptBase<any>;
+  removeKey?: string;
 }
 
 export const Order = z.object({
@@ -47,6 +61,15 @@ export const Order = z.object({
               defaults: "どちらになさいますか？",
             },
           }),
+        } as IssueRecord);
+        return z.INVALID;
+      }
+      if (val === false) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          priority: 20,
+          agent: ChooseOrderPrompt.fuctory,
+          removeKey: "completed",
         } as IssueRecord);
         return z.INVALID;
       }

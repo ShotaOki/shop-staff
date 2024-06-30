@@ -11,6 +11,7 @@ interface ChatModel {
   message: MessageContent[];
   orderState: any;
   updateOrderState: (orderState: any) => void;
+  removeOrderStateKey: (key: string) => void;
   addAssistantMessage: (message: string) => string;
   addUserMessage: (message: string) => string;
   clearMessage: () => void;
@@ -31,6 +32,15 @@ export const useChatModel = create<ChatModel>((set) => {
       set((state) => ({
         orderState: orderState || state.orderState || {},
       }));
+    },
+    removeOrderStateKey(key) {
+      set((state) => {
+        const newOrderState = state.orderState;
+        newOrderState[key] = undefined;
+        return {
+          orderState: newOrderState,
+        };
+      });
     },
     addAssistantMessage(message) {
       const key = uuid();

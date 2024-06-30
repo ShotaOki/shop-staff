@@ -6,6 +6,12 @@ import {
   proxyFetch,
 } from "@iak-extra/scene-composer-extra";
 import { useMemo } from "react";
+import Items from "../state/store-items.json";
+import {
+  colorChartsOrange1200,
+  colorChartsOrange300,
+  colorChartsBlue1900,
+} from "@cloudscape-design/design-tokens";
 
 export default function Scene() {
   /** ローカルからシーンを読み込みます */
@@ -18,55 +24,56 @@ export default function Scene() {
   const controller = useOverrideTags({
     // TwinMakerのタグをボタンに置き換える
     壁のボタン: (replaceTag) =>
-      replaceTag.toButton
-        ?.create({
-          angle: 90,
-          content: "Close",
-          width: 0.7,
-          height: 0.24,
-          stateStyle: ButtonStyle.Standard,
-        })
-        .onClick(() => {
-          // ボタンの押下を受け取ります
-          console.log("clicked: 閉じる");
-          // proxyFetchはfetch互換のAPIです。npm run start時だけ動作します
-          // proxyFetchは、どのドメインからもCORSの制限を受けません
-          proxyFetch("https://www.w3.org/").then((r) => {
-            r.text().then((t) => {
-              console.log(t);
-            });
-          });
-        }),
+      replaceTag.toHTML?.create({
+        angle: 90,
+        element: (
+          <div
+            style={{
+              backgroundColor: colorChartsOrange1200,
+              color: colorChartsOrange300,
+              fontSize: "2.8rem",
+              padding: "1.2rem",
+              borderRadius: "1.2rem",
+              borderStyle: "solid",
+              borderColor: colorChartsBlue1900,
+              borderWidth: "2px",
+              fontFamily: "Yomogi",
+              fontWeight: 900,
+              fontStyle: "normal",
+            }}
+          >
+            <div style={{ marginBottom: "0.8rem" }}>カフェうさだのメニュー</div>
+            {Items.items.map((item) => (
+              <div>
+                {item.name}: {item.price}円
+              </div>
+            ))}
+          </div>
+        ),
+      }),
     // TwinMakerのタグをボタンに置き換える
     初音ミク: (replaceTag) =>
       replaceTag.toMMD
         ?.create({
-          angle: 0,
+          angle: 7,
           scale: 0.08,
-          pmxPath: "/example/miku_v2.pmd",
+          pmxPath: "/example/UsadaPekora/PMX/UsadaPekora.pmx",
           useMotionList: {
-            dance: "/example/wavefile_V2.vmd",
+            waiting:
+              "/example/motion/5.待機モーション・その他/待機モーション/1.呼吸_(90f_移動なし).vmd",
+            swing_hand:
+              "/example/motion/手を振るモーション2/手振_手挙手首(右手).vmd",
+            swing_body:
+              "/example/motion/手を振るモーション2/体_手前(右手用).vmd",
+            face: "/example/motion/手を振るモーション2/表情.vmd",
           },
         })
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .onStateChangeEvent((mesh, model, state) => {
           // 初期化の完了時、またはタグの色がiotデータで変わった時に、通知を受けます
           // useMotionListで指定したモーション名を返すと、MMDのモーションを再生します
-          return ["dance"];
-        }),
-    // TwinMakerのタグをボタンに置き換える
-    壁の時計: (replaceTag) =>
-      replaceTag.toText
-        ?.create({
-          angle: 0,
-          content: "Time",
-        })
-        .onTick((text) => {
-          // 毎フレーム実行を受けます
-          // setで表示内容を変更します
-          text.set({
-            content: new Date().toISOString().split(".")[0],
-          });
+          // return ["swing_hand", "swing_body", "face"];
+          return ["waiting", "face"];
         }),
     部屋: (replaceTag) =>
       replaceTag.toGLTF?.create({

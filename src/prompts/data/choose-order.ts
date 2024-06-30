@@ -2,6 +2,7 @@ import { ChooseOrder, ChooseOrderInput } from "../type/choose-order";
 import { PromptBase } from "./base";
 import CHOOSE_ORDER from "../text/choose-order.txt?raw";
 import { AsyncMessageContainer } from "../../logic/response-streamer";
+import Items from "../../state/store-items.json";
 
 namespace WaitingKey {
   export const FIRST_MESSAGE = "firstMessage";
@@ -40,6 +41,23 @@ export class ChooseOrderPrompt extends PromptBase<ChooseOrderInput> {
     updateState: (value: any) => void
   ) {
     const value = JSON.parse(text) as ChooseOrder;
+    let needsToAsk = false;
+    let price = 0;
+    container.appendMessage({
+      message: value.order
+        .map((item) => `${item.name}を${item.counts}つ`)
+        .join("、"),
+      key: WaitingKey.ORDER,
+    });
+    for (const order of value.order) {
+      if (!Items.items.map((item) => item.name).includes(order.name)) {
+        needsToAsk = true;
+      }
+      const item = Items.items.find((item) => item.name === order.name);
+      if (item !== undefined) {
+        price += item.price * order.counts;
+      }
+    }
     if (state.order === undefined) {
       state.order = value.order;
       updateState(state);
@@ -50,16 +68,17 @@ export class ChooseOrderPrompt extends PromptBase<ChooseOrderInput> {
       };
       updateState(state);
     }
-    container.appendMessage({
-      message: value.order
-        .map((item) => `${item.name}を${item.counts}つ`)
-        .join("、"),
-      key: WaitingKey.ORDER,
-    });
-    container.appendMessage({
-      message: "、こちら承りました。",
-      key: WaitingKey.CONFIRM,
-    });
+    if (needsToAsk) {
+      container.appendMessage({
+        message: "……？",
+        key: WaitingKey.CONFIRM,
+      });
+    } else {
+      container.appendMessage({
+        message: "、こちら承りました。" + `料金は${price}円でございます。`,
+        key: WaitingKey.CONFIRM,
+      });
+    }
   }
 
   static fuctory() {

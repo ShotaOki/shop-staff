@@ -1,6 +1,8 @@
 export interface ChooseOrderItem {
   name: string;
   counts: number;
+  required?: string[];
+  options?: string[];
 }
 
 export interface ChooseOrder {

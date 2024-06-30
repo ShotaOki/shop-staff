@@ -55,6 +55,9 @@ export default function Chat() {
       };
       loads().then((isCompleted) => {
         if (isCompleted) {
+          if (nextIssueRecord.removeKey !== undefined) {
+            model.removeOrderStateKey(nextIssueRecord.removeKey);
+          }
           callNext(undefined);
         }
       });
