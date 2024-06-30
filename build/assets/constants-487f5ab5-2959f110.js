@@ -1,1 +1,0 @@
-import"./constants-ebd051c2-d612ae6c.js";var T=0,i=5e3,e=new Date(2e3,0,0,0,0),a=new Date(2e3,0,0,0,10),r=2500,s="Warning";new Date(e.getTime()+1/3*(a.getTime()-e.getTime()));var _={x:(e.getTime()+a.getTime())/2,y:r};export{_ as T,e as X,r as Y,s as a,T as b,i as c,a as d};

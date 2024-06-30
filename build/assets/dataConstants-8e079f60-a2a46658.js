@@ -1,1 +1,0 @@
-var R;(function(A){A.NUMBER="NUMBER",A.STRING="STRING",A.BOOLEAN="BOOLEAN"})(R||(R={}));var L;(function(A){A.ALARM="ALARM",A.ANOMALY="ANOMALY",A.ALARM_THRESHOLD="ALARM_THRESHOLD"})(L||(L={}));var N;(function(A){A.LINEAR="linear-regression"})(N||(N={}));export{R as D,L as S,N as T};

@@ -1,1 +1,0 @@
-import{h as a,H as i,r}from"./index-d9c51ec4.js";var p=function(){function t(n){r(this,n),this.value=""}return t.prototype.render=function(){var n=this;return a(i,null,a("iot-app-kit-vis-expandable-input",{onValueChange:function(e){n.value=e},value:""}),a("br",null),a("span",{id:"input-value"},this.value))},t}();export{p as iot_app_kit_vis_expandable_input_standard};
