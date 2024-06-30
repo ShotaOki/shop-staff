@@ -5,11 +5,14 @@ import dynamicImport from "vite-plugin-dynamic-import";
 
 export default defineConfig((mode) => {
   // デプロイする対象のパスを設定する
-  const VITE_PROJECT_DEPLOYMENT_ROOT = "/shop-staff/";
+  let VITE_PROJECT_DEPLOYMENT_ROOT = "/";
+  if (mode.mode === "production") {
+    VITE_PROJECT_DEPLOYMENT_ROOT = "/shop-staff/";
+  }
   // Viteのビルド設定
   const config: UserConfigExport = {
     build: {
-      outDir: "build",
+      outDir: "docs",
     },
     base: VITE_PROJECT_DEPLOYMENT_ROOT,
     assetsInclude: ["**/*.hdr"],

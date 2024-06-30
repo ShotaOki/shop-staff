@@ -16,7 +16,10 @@ import {
 export default function Scene() {
   /** ローカルからシーンを読み込みます */
   const sceneLoader = useMemo(
-    () => new DirectSceneLoader("/single-content.json"),
+    () =>
+      new DirectSceneLoader(
+        import.meta.env.VITE_APP_DEPLOYMENT_ROOT + "/single-content.json"
+      ),
     []
   );
 
@@ -57,15 +60,22 @@ export default function Scene() {
         ?.create({
           angle: 7,
           scale: 0.08,
-          pmxPath: "/example/UsadaPekora/PMX/UsadaPekora.pmx",
+          pmxPath:
+            import.meta.env.VITE_APP_DEPLOYMENT_ROOT +
+            "/example/UsadaPekora/PMX/UsadaPekora.pmx",
           useMotionList: {
             waiting:
+              import.meta.env.VITE_APP_DEPLOYMENT_ROOT +
               "/example/motion/5.待機モーション・その他/待機モーション/1.呼吸_(90f_移動なし).vmd",
             swing_hand:
+              import.meta.env.VITE_APP_DEPLOYMENT_ROOT +
               "/example/motion/手を振るモーション2/手振_手挙手首(右手).vmd",
             swing_body:
+              import.meta.env.VITE_APP_DEPLOYMENT_ROOT +
               "/example/motion/手を振るモーション2/体_手前(右手用).vmd",
-            face: "/example/motion/手を振るモーション2/表情.vmd",
+            face:
+              import.meta.env.VITE_APP_DEPLOYMENT_ROOT +
+              "/example/motion/手を振るモーション2/表情.vmd",
           },
         })
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -78,7 +88,9 @@ export default function Scene() {
     部屋: (replaceTag) =>
       replaceTag.toGLTF?.create({
         angle: 0,
-        modelPath: "/example/studio_apartment_vray_baked_textures_included.glb",
+        modelPath:
+          import.meta.env.VITE_APP_DEPLOYMENT_ROOT +
+          "/example/studio_apartment_vray_baked_textures_included.glb",
       }),
   });
   // シーンの再生成を抑えるために、Memo化します
