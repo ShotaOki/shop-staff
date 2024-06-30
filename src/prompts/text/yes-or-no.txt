@@ -1,0 +1,47 @@
+あなたは質問をして、ユーザーから答えを受け取りました。
+答えをもとに、その内容をJSON形式にして返してください。
+プリアンブルは省略して、JSONだけを返してください。
+
+たとえば、次のようなYESの意味の答えを受け取ったとします。
+<order>
+はい、よろしくお願いします。
+</order>
+
+そのとき、次の<response>の中にあるJSONを返してください。
+
+<response>
+{
+  "result": true
+}
+</response>
+
+たとえば、次のようなNOの意味の答えを受け取ったとします。
+<order>
+いいえ、違います。
+</order>
+
+そのとき、次の<response>の中にあるJSONを返してください。
+
+<response>
+{
+  "result": false
+}
+</response>
+
+たとえば、次のようなYESでもNOでもない答えを受け取ったとします。
+<order>
+どうしようかな
+</order>
+
+そのとき、次の<response>の中にあるJSONを返してください。
+
+<response>
+{
+  "result": undefined
+}
+</response>
+
+では、以下の注文に対して、JSON形式で返してください。
+<order>
+${message}
+</order>
