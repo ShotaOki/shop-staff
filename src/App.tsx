@@ -1,11 +1,14 @@
 import { applyMode, Mode } from "@cloudscape-design/global-styles";
 import Scene from "./components/scene";
-import { Container, Grid } from "@cloudscape-design/components";
+import { Container, Grid, Input } from "@cloudscape-design/components";
 import Chat from "./components/chat";
+import { useState } from "react";
 
 applyMode(Mode.Dark);
 
 function App() {
+  const [value, setValue] = useState<string>("");
+
   return (
     <>
       <Grid disableGutters gridDefinition={[{ colspan: 8 }, { colspan: 4 }]}>
@@ -13,7 +16,12 @@ function App() {
           <Scene />
         </Container>
         <Container disableContentPaddings>
-          <Chat />
+          <Input
+            value={value}
+            onChange={(newValue) => setValue(newValue.detail.value)}
+            placeholder="GroqのAPIキーを入力"
+          />
+          <Chat groqKey={value} />
         </Container>
       </Grid>
     </>

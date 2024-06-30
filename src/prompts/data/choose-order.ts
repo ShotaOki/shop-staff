@@ -62,10 +62,7 @@ export class ChooseOrderPrompt extends PromptBase<ChooseOrderInput> {
       state.order = value.order;
       updateState(state);
     } else {
-      state.order = {
-        ...state.order,
-        ...value.order,
-      };
+      state.order = [...state.order, ...value.order];
       updateState(state);
     }
     if (needsToAsk) {

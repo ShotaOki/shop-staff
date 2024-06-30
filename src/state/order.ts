@@ -18,8 +18,6 @@ const OrderItem = z.object({
     }
   }),
   counts: z.number(),
-  required: z.array(z.string()).optional(),
-  options: z.array(z.string()).optional(),
 });
 
 export interface IssueRecord {

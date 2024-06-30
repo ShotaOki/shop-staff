@@ -1,0 +1,1 @@
+var n=1.5,o=function(i){return i.map(function(e){return{id:e.id,name:e.name,detailedName:e.detailedName,color:e.color,unit:e.unit,dataType:e.dataType,streamType:e.streamType,associatedStreams:e.associatedStreams,isLoading:e.isLoading,isRefreshing:e.isRefreshing,error:e.error,resolution:e.resolution}})};export{n as S,o as g};
